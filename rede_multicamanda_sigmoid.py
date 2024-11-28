@@ -13,19 +13,20 @@ def simoid_derivada(sig):
 entradas = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
 saidas = np.array([[0], [1], [1], [0]])
 # sinapse entrada -> camada oculta
-pesos_x1_x2 = np.array([[-0.424, -0.700, -0.961], [0.358, -0.577, -0.469]])
+pesos_0 = np.array([[-0.424, -0.700, -0.961], [0.358, -0.577, -0.469]])
 # sinapse camada oculta -> saida
-pesos_camada_oculta_para_saida = np.array([[-0.017], [-0.893], [0.148]])
+pesos_1 = np.array([[-0.017], [-0.893], [0.148]])
 # quantidade de vezes que vamos atualizar os pesos
 epocas = 100
-
+taxa_de_aprendizagem = 0.3
+momento = 1
 camada_entrada = entradas.copy()
 
 for j in range(epocas):
-    soma_sinapse_x1_x2 = np.dot(camada_entrada, pesos_x1_x2)
+    soma_sinapse_x1_x2 = np.dot(camada_entrada, pesos_0)
     camada_oculta = sigmoid(soma_sinapse_x1_x2)
 
-    soma_sinapse_oculta = np.dot(camada_oculta, pesos_camada_oculta_para_saida)
+    soma_sinapse_oculta = np.dot(camada_oculta, pesos_1)
     camada_saida = sigmoid(soma_sinapse_oculta)
 
     erro_camada_saida = saidas - camada_saida
@@ -34,8 +35,12 @@ for j in range(epocas):
     derivada_saida = simoid_derivada(camada_saida)
     delta_saida = erro_camada_saida * derivada_saida
 
-    pesos_x1_x2_transpostas = pesos_camada_oculta_para_saida.T
+    pesos_x1_x2_transpostas = pesos_1.T
     delta_saida_x_peso = delta_saida.dot(pesos_x1_x2_transpostas)
     delta_camada_oculta = delta_saida_x_peso * simoid_derivada(camada_oculta)
 
-print(np.round(delta_camada_oculta, decimals=3))
+    camada_oculta_transposta = camada_oculta.T
+    pesos_novos_1 = camada_oculta_transposta.dot(delta_saida)
+    pesos_camada_oculta_para_saida = (pesos_1 * momento) + (pesos_novos_1 * taxa_de_aprendizagem)
+
+print(pesos_camada_oculta_para_saida)
