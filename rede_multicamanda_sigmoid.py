@@ -43,4 +43,8 @@ for j in range(epocas):
     pesos_novos_1 = camada_oculta_transposta.dot(delta_saida)
     pesos_camada_oculta_para_saida = (pesos_1 * momento) + (pesos_novos_1 * taxa_de_aprendizagem)
 
-print(pesos_camada_oculta_para_saida)
+    camada_entrada_transposta = camada_entrada.T
+    pesos_novos_0 = camada_entrada_transposta.dot(delta_camada_oculta)
+    pesos_0 = (pesos_0 * momento) + (pesos_novos_0 * taxa_de_aprendizagem)
+
+print(pesos_0)
