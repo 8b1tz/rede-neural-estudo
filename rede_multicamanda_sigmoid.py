@@ -13,12 +13,12 @@ def simoid_derivada(sig):
 entradas = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
 saidas = np.array([[0], [1], [1], [0]])
 # sinapse entrada -> camada oculta
-pesos_0 = np.array([[-0.424, -0.700, -0.961], [0.358, -0.577, -0.469]])
+pesos_0 = 2 * np.random.random((2,3)) - 1
 # sinapse camada oculta -> saida
-pesos_1 = np.array([[-0.017], [-0.893], [0.148]])
+pesos_1 = 2 * np.random.random((3,1)) - 1
 # quantidade de vezes que vamos atualizar os pesos
-epocas = 100
-taxa_de_aprendizagem = 0.3
+epocas = 1000000
+taxa_de_aprendizagem = 0.6
 momento = 1
 camada_entrada = entradas.copy()
 
